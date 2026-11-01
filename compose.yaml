@@ -1,0 +1,15 @@
+# Stdio runs on demand; use `docker compose run --rm -T idfm`.
+services:
+  idfm:
+    build: .
+    user: "${IDFM_UID:-10001}:${IDFM_GID:-10001}"
+    stdin_open: true
+    read_only: true
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    environment:
+      IDFM_API_KEY_FILE: /run/secrets/prim_key
+    secrets: [prim_key]
+secrets:
+  prim_key:
+    file: ${IDFM_SECRET_FILE:?Set IDFM_SECRET_FILE to your private key file}

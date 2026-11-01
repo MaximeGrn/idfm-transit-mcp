@@ -1,0 +1,31 @@
+[build-system]
+requires = ["hatchling>=1.27"]
+build-backend = "hatchling.build"
+
+[project]
+name = "idfm-transit-mcp"
+version = "0.1.0"
+description = "Unofficial MCP server for Île-de-France public transport using official PRIM APIs"
+readme = "README.md"
+requires-python = ">=3.11"
+license = "MIT"
+dependencies = ["mcp>=2.3,<3", "httpx>=0.28,<0.29", "pydantic>=2.14,<3", "tzdata>=2026.1"]
+keywords = ["mcp", "idfm", "prim", "transit", "navitia", "paris"]
+
+[project.scripts]
+idfm-transit-mcp = "idfm_transit_mcp.server:main"
+
+[dependency-groups]
+dev = ["pytest>=9,<10", "pytest-asyncio>=1,<2", "ruff>=0.17,<0.18", "build>=1,<2"]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+asyncio_default_fixture_loop_scope = "function"
+testpaths = ["tests"]
+markers = ["live: requires a real PRIM key and consumes quota"]
+
+[tool.ruff]
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "ASYNC"]
