@@ -2,6 +2,7 @@
 
 import re
 import unicodedata
+from datetime import UTC
 from typing import Any
 from urllib.parse import quote
 
@@ -146,7 +147,7 @@ class TransitTools:
         params: dict[str, Any] = {
             "datetime": navitia_datetime(datetime)
             if datetime
-            else now_paris().strftime("%Y%m%dT%H%M%S"),
+            else navitia_datetime(now_paris().isoformat()),
             "datetime_represents": datetime_represents,
             "count": limit,
             "wheelchair": str(wheelchair).lower(),
@@ -316,7 +317,11 @@ class TransitTools:
         for key, value in (("since", since), ("until", until)):
             if value:
                 params[key] = navitia_datetime(value)
-        if since and until and parse_datetime(since) > parse_datetime(until):
+        if (
+            since
+            and until
+            and parse_datetime(since).astimezone(UTC) > parse_datetime(until).astimezone(UTC)
+        ):
             raise ValueError("since must be before until")
         reports, disruptions, complete = await self.client.pages(path, "line_reports", params, 60)
         lines_by_disruption: dict[str, set[str]] = {}

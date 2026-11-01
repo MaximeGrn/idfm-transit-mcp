@@ -28,7 +28,8 @@ def parse_datetime(value: str) -> datetime:
 
 
 def navitia_datetime(value: str) -> str:
-    return parse_datetime(value).strftime("%Y%m%dT%H%M%S")
+    # Navitia explicitly accepts UTC ISO dates. Preserve the instant across DST folds.
+    return parse_datetime(value).astimezone(UTC).strftime("%Y%m%dT%H%M%SZ")
 
 
 def output_datetime(value: str | None) -> str | None:

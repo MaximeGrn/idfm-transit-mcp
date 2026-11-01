@@ -3,7 +3,7 @@
 Initial validation: 2026-11-01, Linux ARM64 on Raspberry Pi, Python 3.11 and the
 official MCP SDK 2.3.0. Repeat live checks when deploying; schedules change.
 
-The offline suite passed 52 tests; two opt-in integration tests passed against
+The offline suite passed 54 tests; two opt-in integration tests passed against
 authenticated PRIM. A Python 3.13 runtime was installed and exercised inside an
 existing container without system Python or timezone files; the package includes
 `tzdata` so Europe/Paris works there too. The Docker image builds on ARM64.

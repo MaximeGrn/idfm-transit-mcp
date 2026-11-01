@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.1.1 — 2026-11-01
+
+- Preserve explicit timezone offsets when sending dates to Navitia by using UTC ISO timestamps.
+- Compare period boundaries as instants across daylight saving time transitions.
+
 ## 0.1.0 — 2026-11-01
 
 - Seven read-only tools using official PRIM Navitia and SIRI APIs.

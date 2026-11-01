@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "idfm-transit-mcp"
-version = "0.1.0"
+version = "0.1.1"
 description = "Unofficial MCP server for Île-de-France public transport using official PRIM APIs"
 readme = "README.md"
 requires-python = ">=3.11"

@@ -4,7 +4,7 @@ import httpx
 import pytest
 from conftest import page
 
-from idfm_transit_mcp.timeutils import now_paris, parse_datetime
+from idfm_transit_mcp.timeutils import navitia_datetime, now_paris, parse_datetime
 from idfm_transit_mcp.tools import monitoring_refs
 
 
@@ -35,7 +35,7 @@ async def test_empty_places_and_journey(make_tools):
 
 async def test_journey_arrival_modes_and_normalization(make_tools):
     def handler(req):
-        assert req.url.params["datetime"] == "20261101T200000"
+        assert req.url.params["datetime"] == "20261101T190000Z"
         assert req.url.params["datetime_represents"] == "arrival"
         assert req.url.params.get_list("allowed_id[]") == ["physical_mode:Metro"]
         assert req.url.params["forbidden_uris[]"] == "line:IDFM:avoid"
@@ -357,6 +357,21 @@ def test_dst_gaps_and_folds_require_offset(value):
 
 def test_explicit_dst_offset():
     assert parse_datetime("2026-10-25T02:30:00+02:00").utcoffset().total_seconds() == 7200
+
+
+def test_navitia_retains_the_two_distinct_dst_instants():
+    assert navitia_datetime("2026-10-25T02:30:00+02:00") == "20261025T003000Z"
+    assert navitia_datetime("2026-10-25T02:30:00+01:00") == "20261025T013000Z"
+
+
+async def test_period_order_uses_instants_across_dst_fold(make_tools):
+    def handler(req):
+        pytest.fail("Reversed instants should be rejected before HTTP")
+
+    with pytest.raises(ValueError, match="since must be before until"):
+        await make_tools(handler).get_network_disruptions(
+            since="2026-10-25T02:30:00+01:00", until="2026-10-25T02:45:00+02:00"
+        )
 
 
 async def test_network_output_window_does_not_omit_alerts_silently(make_tools):

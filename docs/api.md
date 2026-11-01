@@ -69,3 +69,5 @@ Public transport modes, routing dates and accessibility depend on the production
 data. An HTTP 200 alone does not prove useful data exists: tests check collections,
 IDs, normalized schedules and tool output. Alert timestamps without offsets are
 interpreted in Europe/Paris; SIRI ISO timestamps preserve their actual UTC instant.
+
+Input dates are sent to Navitia in its documented UTC ISO format (`YYYYMMDDThhmmssZ`), preserving the two distinct instants of a repeated DST clock hour. Provider response times remain local unless an offset is supplied.

@@ -22,7 +22,7 @@ Install a tagged version into a dedicated environment; no development checkout i
 ```sh
 python3 -m venv ~/.local/share/idfm-transit-mcp/venv
 ~/.local/share/idfm-transit-mcp/venv/bin/pip install \
-  'idfm-transit-mcp @ git+https://github.com/MaximeGrn/idfm-transit-mcp.git@v0.1.0'
+  'idfm-transit-mcp @ git+https://github.com/MaximeGrn/idfm-transit-mcp.git@v0.1.1'
 ```
 
 Alternatively, use the locked source environment:
@@ -143,10 +143,10 @@ pages of 100 reports; `complete=false` marks incomplete traversal explicitly.
 ## Docker
 
 ```sh
-docker build -t idfm-transit-mcp:0.1.0 .
+docker build -t idfm-transit-mcp:0.1.1 .
 docker run --rm -i --read-only --cap-drop ALL --user "$(id -u):$(id -g)" \
   --mount type=bind,src=/absolute/path/to/private/prim-api-key,dst=/run/secrets/prim_key,readonly \
-  -e IDFM_API_KEY_FILE=/run/secrets/prim_key idfm-transit-mcp:0.1.0
+  -e IDFM_API_KEY_FILE=/run/secrets/prim_key idfm-transit-mcp:0.1.1
 ```
 
 The image defaults to non-root UID 10001. The command above uses your host UID/GID
